@@ -29,4 +29,23 @@ client.on("guildMemberRemove", member => {
     logChannel.send("Un nouvel utilisateur vient juste de partir : " + member.user.username)
 })
 
+client.on("voiceStateUpdate", (oldState, newState) => {
+    const logChannel = oldState.guild.channels.cache.find(channel => channel.id === config.logChannel)
+    const user = oldState.member.user.username
+    if(newState.channelId == null) {
+        const vocalLeave = oldState.guild.channels.cache.find(channel => channel.id === oldState.channelId)
+        logChannel.send(user + " vient juste de quitter le vocal " + vocalLeave.name)
+        console.log(user + " vient juste de quitter le vocal " + vocalLeave.name)
+    } else if(oldState.channelId != null) {
+        const oldVocal = oldState.guild.channels.cache.find(channel => channel.id === oldState.channelId)
+        const newVocal = newState.guild.channels.cache.find(channel => channel.id === newState.channelId)
+        logChannel.send(user + " vient juste de changer de vocal " + oldVocal.name + " -> " + newVocal.name)
+        console.log(user + " vient juste de changer de vocal " + oldVocal.name + " -> " + newVocal.name)
+    } else {
+        const vocalArrival = newState.guild.channels.cache.find(channel => channel.id === newState.channelId)
+        logChannel.send(user + " vient juste d'arriver en vocal " + vocalArrival.name)
+        console.log( user + "Un nouvel utilisateur vient juste d'arriver en vocal " + vocalArrival.name)
+    }
+})
+
 client.login(process.env.TOKEN)
