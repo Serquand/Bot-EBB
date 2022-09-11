@@ -2,7 +2,7 @@ require("dotenv").config()
 const Discord = require("discord.js")
 let config = require("./config.json").dev
 
-const client = new Discord.Client({ intents: 579 })
+const client = new Discord.Client({ intents: 32767 })
 
 client.once("ready", () => {
     console.clear()
@@ -16,6 +16,11 @@ client.once("ready", () => {
 
 client.on("guildMemberAdd", (information) => {
     const logChannel = information.guild.channels.cache.find(channel => channel.id === config.logChannel)
+    const user = information.guild.members.cache.find(member => member.id === information.user.id)
+    const clocheRole = information.guild.roles.cache.find(role => role.id === config.clocheRole)
+    const thRole = information.guild.roles.cache.find(role => role.id === config.th)
+    user.roles.add(clocheRole)
+    user.roles.add(thRole)
     logChannel.send("Un nouvel utilisateur vient juste d'arriver : " + information.user.username)
 })
 
