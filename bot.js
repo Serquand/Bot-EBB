@@ -53,4 +53,12 @@ client.on("messageUpdate", (oldMessage, newMessage) => {
     )
 })
 
+client.on("messageDelete", message => {
+    const channel = message.channelId
+    const logChannel = message.guild.channels.cache.find(channel => channel.id === config.logChannel)
+    const contentessage = message.content 
+    const author = message.author.id
+    logChannel.send("Message supprimé : \nAuteur : <@" + author + ">.\nSalon : <#" + channel + ">.\nContenu : " + contentessage)
+})
+
 client.login(process.env.TOKEN)
