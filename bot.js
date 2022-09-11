@@ -2,17 +2,16 @@ require("dotenv").config()
 const Discord = require("discord.js")
 let config = require("./config.json").dev
 
-const client = new Discord.Client({ intents: 32767 })
+const client = new Discord.Client({ intents: 3276799 })
 
 client.once("ready", () => {
     console.clear()
     console.log("Je suis lancé !")
 })
 
-// client.on("messageCreate", (message) => {
-//     console.log("Test")
-//     // message.channel.send("pong")
-// })
+client.on("messageCreate", (message) => {
+    console.log(message.content)
+})
 
 client.on("guildMemberAdd", (information) => {
     const logChannel = information.guild.channels.cache.find(channel => channel.id === config.logChannel)
@@ -40,6 +39,18 @@ client.on("voiceStateUpdate", (oldState, newState) => {
         message = user + " vient juste de changer de vocal " + oldVocal.name + " -> " + newVocal.name
     } else message = user + " vient juste d'arriver en vocal " + newState.guild.channels.cache.find(channel => channel.id === newState.channelId).name
     logChannel.send(message)
+})
+
+client.on("messageUpdate", (oldMessage, newMessage) => {
+    const oldContent = oldMessage.content
+    const newContent = newMessage.content 
+    const author = oldMessage.author.id
+    const channel = oldMessage.channelId
+    const logChannel = oldMessage.guild.channels.cache.find(channel => channel.id === config.logChannel)
+    logChannel.send(
+        "<@" + author + "> a modifié un message dans le salon <#" + channel + 
+        ">.\n\nAncien message : \n" + oldContent + "\n\nNouveau message : \n" + newContent 
+    )
 })
 
 client.login(process.env.TOKEN)
