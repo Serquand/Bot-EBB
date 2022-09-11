@@ -24,9 +24,9 @@ client.on("guildMemberAdd", (information) => {
     logChannel.send("Un nouvel utilisateur vient juste d'arriver : " + information.user.username)
 })
 
-client.on("guildMemberRemove", (message, member) => {
-    console.log(member)
-    console.log(message)
+client.on("guildMemberRemove", member => {
+    const logChannel = member.guild.channels.cache.find(channel => channel.id === config.logChannel)
+    logChannel.send("Un nouvel utilisateur vient juste de partir : " + member.user.username)
 })
 
 client.login(process.env.TOKEN)
