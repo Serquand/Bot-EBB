@@ -1,5 +1,5 @@
 {
-  "name": "Bot-EBB",
+  "name": "bot-ebb",
   "version": "1.0.0",
   "description": "A bot for the EBB's (Exo Base Building on Clash Of Clans) Discord server",
   "main": "bot.js",
