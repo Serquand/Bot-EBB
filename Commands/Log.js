@@ -55,11 +55,16 @@ const banLogger = (message, member) => {
 } 
 
 const warnLogger = (message, member, nbWarn) => {
-    const channelLog = message.guild.channels.cache.find(channel => channel.id === message.channelId)
-    const username = message.guild.members.cache.find(user => user.id == member)
     let endSentence = nbWarn == 1 ? '1er warn !' : nbWarn + 'ème warn !' 
-    channelLog.send("<@" + username.user.id + ">" + " a bien été warn ! C'est son " + endSentence);
+    message.channel.send("<@" + member + "> a bien été warn ! C'est son " + endSentence);
 }
+
+const warnRemoveLogger = (message, member, nbWarn) => {
+    let endSentence = nbWarn == 0 ? "Il n'a aucun warn " : nbWarn == 1 ? 'C\'est son 1er warn !' : "C'est son " + nbWarn + 'ème warn !' 
+    message.channel.send("Nous avons bien supprimé un warn de <@" + member + "> ! " + endSentence);
+}
+
+const getWarnLogger = (message, member, nbWarn) => message.channel.send("<@" + member + "> a " + nbWarn + " warn !")
         
 
 module.exports = { 
@@ -69,5 +74,7 @@ module.exports = {
     messageUpdateLogger, 
     messageDeleteLogger, 
     banLogger, 
-    warnLogger
+    warnLogger, 
+    warnRemoveLogger, 
+    getWarnLogger
 }
