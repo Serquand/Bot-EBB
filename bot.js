@@ -3,7 +3,7 @@ const Discord = require("discord.js")
 let config = require("./config.json").dev
 
 const messageCreated = require("./Commands/MessageCreated")
-const { handleArrivalMember, guildMemberRemove, voiceUpdateLogger, messageUpdateLogger, messageDeleteLogger } = require("./Commands/Moderation")
+const { handleArrivalMember, guildMemberRemove, voiceUpdateLogger, messageUpdateLogger, messageDeleteLogger } = require("./Commands/Log")
 
 const client = new Discord.Client({ intents: 3276799 })
 

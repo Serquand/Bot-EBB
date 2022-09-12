@@ -1,57 +1,12 @@
-let config = require("../config.json").dev
+const config = require("../config.json").dev
 
-const handleArrivalMember = (information) => {
-    const logChannel = information.guild.channels.cache.find(channel => channel.id === config.logChannel)
-    const user = information.guild.members.cache.find(member => member.id === information.user.id)
-    const clocheRole = information.guild.roles.cache.find(role => role.id === config.clocheRole)
-    const thRole = information.guild.roles.cache.find(role => role.id === config.th)
-    user.roles.add(clocheRole)
-    user.roles.add(thRole)
-    logChannel.send("Un nouvel utilisateur vient juste d'arriver : " + information.user.username)
+const isAStaff = async user => await user.roles.cache.has(config.moderationRole)
+
+const ban = async message => {
+    const guild = message.guild
+    const membersBan = message.content.split('<@')
+    if(!await isAStaff(message.guild.members.cache.find(user => user.id === message.author.id) || membersBan.length == 1)) return; 
+    for(let i = 1; i < membersBan.length; i++) guild.members.cache.find(user => user.id == membersBan[i].split(">")[0]).ban()
 }
 
-const guildMemberRemove = member => {
-    const logChannel = member.guild.channels.cache.find(channel => channel.id === config.logChannel)
-    logChannel.send("Un nouvel utilisateur vient juste de partir : " + member.user.username)
-}
-
-const voiceUpdateLogger = (oldState, newState) => {
-    const logChannel = oldState.guild.channels.cache.find(channel => channel.id === config.logChannel)
-    const user = oldState.member.user.username
-    let message;
-    if(newState.channelId == null) message = user + " vient juste de quitter le vocal " + oldState.guild.channels.cache.find(channel => channel.id === oldState.channelId).name
-    else if(oldState.channelId != null) {
-        const oldVocal = oldState.guild.channels.cache.find(channel => channel.id === oldState.channelId)
-        const newVocal = newState.guild.channels.cache.find(channel => channel.id === newState.channelId)
-        message = user + " vient juste de changer de vocal " + oldVocal.name + " -> " + newVocal.name
-    } else message = user + " vient juste d'arriver en vocal " + newState.guild.channels.cache.find(channel => channel.id === newState.channelId).name
-    logChannel.send(message)
-}
-
-const messageUpdateLogger = (oldMessage, newMessage) => {
-    const oldContent = oldMessage.content
-    const newContent = newMessage.content 
-    const author = oldMessage.author.id
-    const channel = oldMessage.channelId
-    const logChannel = oldMessage.guild.channels.cache.find(channel => channel.id === config.logChannel)
-    logChannel.send(
-        "<@" + author + "> a modifié un message dans le salon <#" + channel + 
-        ">.\n\nAncien message : \n" + oldContent + "\n\nNouveau message : \n" + newContent 
-    )
-}
-
-const messageDeleteLogger = message => {
-    const channel = message.channelId
-    const logChannel = message.guild.channels.cache.find(channel => channel.id === config.logChannel)
-    const contentessage = message.content 
-    const author = message.author.id
-    logChannel.send("Message supprimé : \nAuteur : <@" + author + ">.\nSalon : <#" + channel + ">.\nContenu : " + contentessage)
-}
-
-module.exports = { 
-    handleArrivalMember, 
-    guildMemberRemove, 
-    voiceUpdateLogger, 
-    messageUpdateLogger, 
-    messageDeleteLogger 
-}
+module.exports = { ban }
