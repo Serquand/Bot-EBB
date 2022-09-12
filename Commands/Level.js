@@ -25,7 +25,7 @@ const getRank = async () => {
         attributes: ['pseudo', 'nbMessage', 'experience']
     })
     for(let i = 0; i < totalRank.length; i++) totalRank[i] = totalRank[i].dataValues
-
+    
     console.log(totalRank);
 }
 

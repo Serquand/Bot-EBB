@@ -1,5 +1,5 @@
 const User = require("./User")
 
-const setup = () => User.sync({ force: true })
+const setup = () => User.sync()
 
 module.exports = setup
