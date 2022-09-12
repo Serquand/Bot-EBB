@@ -1,4 +1,4 @@
-const { ban } = require("./Moderation") 
+const { ban, warn } = require("./Moderation") 
 const { addAMessage, getRank } = require("./Level")
 const suggestion = require("./suggestions")
 
@@ -10,6 +10,7 @@ const messageCreated = (message) => {
         if(commandTitle == 'ban') ban(message)
         if(commandTitle == 'rank') getRank()
         if(commandTitle == 'suggestion') suggestion(message)  
+        if(commandTitle == 'warn') warn(message)
     } else addAMessage(message)
 }   
 

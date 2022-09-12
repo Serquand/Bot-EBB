@@ -11,10 +11,7 @@ const addAMessage = async (message) => {
     
     // On fait l'action  
     if(count == 0) await User.create({ id: idUser, pseudo, nbMessage: 1, experience })
-    else {
-        await User.increment({ nbMessage: 1 }, { where: { id: idUser } })
-        await User.increment({ experience }, { where: { id: idUser } })
-    }
+    else await User.increment({ nbMessage: 1, experience }, { where: { id: idUser } })
 }
 
 const getRank = async () => {
@@ -25,7 +22,7 @@ const getRank = async () => {
         attributes: ['pseudo', 'nbMessage', 'experience']
     })
     for(let i = 0; i < totalRank.length; i++) totalRank[i] = totalRank[i].dataValues
-    
+
     console.log(totalRank);
 }
 

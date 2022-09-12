@@ -21,8 +21,5 @@ client.on("guildMemberRemove", member => guildMemberRemove(member))
 client.on("voiceStateUpdate", (oldState, newState) => voiceUpdateLogger(oldState, newState))
 client.on("messageUpdate", message => messageUpdateLogger(message))
 client.on("messageDelete", message => messageDeleteLogger(message))
-client.on("interactionCreate", information => {
-    
-})
 
 client.login(process.env.TOKEN)
