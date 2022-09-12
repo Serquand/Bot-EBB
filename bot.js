@@ -4,10 +4,13 @@ let config = require("./config.json").dev
 
 const messageCreated = require("./Commands/MessageCreated")
 const { handleArrivalMember, guildMemberRemove, voiceUpdateLogger, messageUpdateLogger, messageDeleteLogger } = require("./Commands/Log")
+const setup = require('./Models/Setup')
+
 
 const client = new Discord.Client({ intents: 3276799 })
 
-client.once("ready", () => {
+client.once("ready", async () => {
+    await setup()
     console.clear()
     console.log("Je suis lancé !")
 })
