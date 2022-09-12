@@ -48,10 +48,19 @@ const messageDeleteLogger = message => {
     logChannel.send("Message supprimé : \nAuteur : <@" + author + ">.\nSalon : <#" + channel + ">.\nContenu : " + contentessage)
 }
 
+const banLogger = (message, member) => {
+    const channelLog = message.guild.channels.cache.find(channel => channel.id === message.channelId)
+    const username = message.guild.members.cache.find(user => user.id == member)
+    console.log(channelLog, username)
+    channelLog.send("<@" + username.user.id + ">" + " a bien été banni !")
+} 
+        
+
 module.exports = { 
     handleArrivalMember, 
     guildMemberRemove, 
     voiceUpdateLogger, 
     messageUpdateLogger, 
-    messageDeleteLogger 
+    messageDeleteLogger, 
+    banLogger
 }
