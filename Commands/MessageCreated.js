@@ -4,8 +4,8 @@ const suggestion = require("./suggestions")
 
 const messageCreated = (message) => {
     if(message.author.bot) return
-    if(message.content.startsWith("e3b.")) {
-        const commandTitle = message.content.split(" ")[0].split("e3b.")[1]
+    if(message.content.startsWith("/")) {
+        const commandTitle = message.content.split(" ")[0].split("/")[1]
 
         if(commandTitle == 'ban') ban(message)
         if(commandTitle == 'rank') getRank()

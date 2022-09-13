@@ -65,6 +65,11 @@ const warnRemoveLogger = (message, member, nbWarn) => {
 }
 
 const getWarnLogger = (message, member, nbWarn) => message.channel.send("<@" + member + "> a " + nbWarn + " warn !")
+
+const logLevelUpdated = (message, author, level) => {
+    const channelLog = message.guild.channels.cache.find(channel => channel.id === config.botChannel)
+    channelLog.send("<@" + author + "> a atteint le niveau " + level + " !")
+}
         
 
 module.exports = { 
@@ -76,5 +81,6 @@ module.exports = {
     banLogger, 
     warnLogger, 
     warnRemoveLogger, 
-    getWarnLogger
+    getWarnLogger, 
+    logLevelUpdated
 }
