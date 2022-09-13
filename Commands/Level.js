@@ -44,4 +44,24 @@ const getRank = async () => {
     console.log(totalRank);
 }
 
-module.exports = { addAMessage, getRank } 
+const getLevel = experience => {
+    for(let i = 0; ; i++) {
+        if(getExperienceForLevel(i) > experience) return i
+    }
+}
+
+const getProfil = async message => {
+    const authorId = message.author.id
+
+    let experienceAndMessage = (await User.findOne({
+        where: { id: authorId }, 
+        attributes: ['nbMessage', 'experience']
+    })).dataValues
+    experienceAndMessage.level = getLevel(experienceAndMessage.experience)
+    message.channel.send(
+        "<@" + authorId + "> a " + experienceAndMessage.level + "niveau " + experienceAndMessage.nbMessage + " messages " + 
+        experienceAndMessage.experience + " expériences ! Le prochain niveau est à " + getExperienceForLevel(experienceAndMessage.level)
+    );
+}   
+
+module.exports = { addAMessage, getRank, getProfil } 
