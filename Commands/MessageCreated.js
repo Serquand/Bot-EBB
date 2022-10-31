@@ -14,6 +14,9 @@ const messageCreated = (message) => {
         if(commandTitle == 'rmWarn') removeWarn(message)
         if(commandTitle == 'getWarn') getNumberWarn(message)
         if(commandTitle === 'profil') getProfil(message)
+        if(commandTitle === 'createEmbed') createEmbed(message)
+        if(commandTitle === 'deleteEmbed') deleteEmbed(message)
+        if(commandTitle === 'updateEmbed') updateEmbed(message)
     } else addAMessage(message)
 }   
 
