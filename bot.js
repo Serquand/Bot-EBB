@@ -19,7 +19,7 @@ client.on("messageCreate", message => messageCreated(message))
 client.on("guildMemberAdd", information => handleArrivalMember(information))
 client.on("guildMemberRemove", member => guildMemberRemove(member))
 client.on("voiceStateUpdate", (oldState, newState) => voiceUpdateLogger(oldState, newState))
-client.on("messageUpdate", message => messageUpdateLogger(message))
+// client.on("messageUpdate", message => messageUpdateLogger(message))
 client.on("messageDelete", message => messageDeleteLogger(message))
 
 client.login(process.env.TOKEN)
