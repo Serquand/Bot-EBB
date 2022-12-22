@@ -8,6 +8,8 @@ export default async (client: Client) => {
     (await pGlob(`${process.cwd()}/src/events/*/*.ts`)).map(async (eventFile: string) => {
         const event = require(eventFile);
 
+        console.log('Evenement chargée : ' + event.name);
+
         if(event.once == true) {
             client.once(event.name, (...args: any) => event.execute(client, ...args));
         } else {

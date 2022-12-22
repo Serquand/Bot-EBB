@@ -3,9 +3,7 @@ import { glob } from "glob";
 
 const pGlob = promisify(glob);
 
-export default async (client: any) => {
-    console.log(await pGlob(`${process.cwd()}/src/commands/*/*.ts`));
-    
+export default async (client: any) => {   
     (await pGlob(`${process.cwd()}/src/commands/*/*.ts`)).map(async (cmdFile: string) => {
         const cmd = require(cmdFile);
 
