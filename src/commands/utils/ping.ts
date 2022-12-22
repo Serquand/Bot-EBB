@@ -1,5 +1,3 @@
-import { Interaction } from "discord.js"
-
 module.exports = {
     name: "ping", 
     description: "Test",
