@@ -3,7 +3,7 @@ import User from "../../Models/User"
 import getLevelFromXP from "../../utils/Level/GetLevelFromXP";
 
 module.exports = {
-    name: 'rank',
+    name: 'profil',
     description: "Display the level information of a member",
     options: [
         {
