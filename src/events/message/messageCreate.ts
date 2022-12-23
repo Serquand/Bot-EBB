@@ -8,6 +8,7 @@ module.exports = {
     once: false, 
 
     async execute(client: any, message: any) {
+        if(message.author.bot) return;
         const MESSAGE_LIMIT = 10;
         const userId = message.author.id;
         
