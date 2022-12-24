@@ -25,7 +25,7 @@ module.exports = {
         } 
 
         interaction.reply({
-            embeds: [embed]
+            embeds: [embed.embeds[0]]
         })
     }    
 }   
