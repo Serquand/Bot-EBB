@@ -61,7 +61,7 @@ const createSecondStep : Function = (interaction: ModalSubmitInteraction) => {
                     collector.stop();
                     answerCollector.stop();
 	                if(i.customId == 'validButton') {
-                        finalizeCreateEmbed();
+                        finalizeCreateEmbed(embed, title, message);
                         return i.reply("Nous avons bien créé l'embed ! ✅");
                     } 
                     i.reply("Création supprimée avec succès ! ✅");
@@ -129,7 +129,7 @@ const createSecondStep : Function = (interaction: ModalSubmitInteraction) => {
                             collector.stop();
                             answerCollector.stop();
                             if(i.customId == 'validButton') {
-                                finalizeCreateEmbed();
+                                finalizeCreateEmbed(embed, title, message);
                                 return i.reply("Nous avons bien créé l'embed ! ✅");
                             } 
                             i.reply("Création supprimée avec succès ! ✅");
@@ -168,7 +168,7 @@ const createSecondStep : Function = (interaction: ModalSubmitInteraction) => {
                 collector.stop();
                 answerCollector.stop();
                 if(i.customId == 'validButton') {
-                    finalizeCreateEmbed();
+                    finalizeCreateEmbed(embed, title, message);
                     return i.reply("Nous avons bien créé l'embed ! ✅");
                 } 
                 i.reply("Création supprimée avec succès ! ✅");
