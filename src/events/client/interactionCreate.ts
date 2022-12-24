@@ -1,5 +1,6 @@
 import { Guild, Interaction } from "discord.js";
 import createSecondStep from "../../utils/Embeds/CreateSecondStep"
+import updateSecondStep from "../../utils/Embeds/updateSecondStep";
 
 module.exports = {
     name: "interactionCreate", 
@@ -13,6 +14,7 @@ module.exports = {
 
         if(interaction.isModalSubmit()) {
             if(interaction.customId == "createEmbed") createSecondStep(interaction)
+            if(interaction.customId.startsWith("editEmbed-")) updateSecondStep(interaction)
         }
 
         const devGuild: Guild = await client.guilds.cache.get(process.env.idServ);
