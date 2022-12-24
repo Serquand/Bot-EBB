@@ -1,5 +1,5 @@
 import { Guild, Interaction } from "discord.js";
-import createSecondStep from "../../commands/Embed/CreateSecondStep";
+import createSecondStep from "../../utils/Embeds/CreateSecondStep"
 
 module.exports = {
     name: "interactionCreate", 
