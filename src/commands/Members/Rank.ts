@@ -1,59 +1,50 @@
-import { MessageEmbed } from "discord.js";
+import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import User from "../../Models/User"
-import getLevelFromXP from "../../utils/Level/GetLevelFromXP";
+
+let view = 0;
+
+const generateValue: Function = (ranking: any[]): string => {
+    const size: number = 0;
+    let output: string = "";
+
+    for(let i = view * 10; i < view * 11; i++) {
+        
+    }
+    
+    return output;
+}
 
 module.exports = {
-    name: 'profil',
-    description: "Display the level information of a member",
-    options: [
-        {
-            name: "user",
-            description: "Taper l'ID de l'utilisateur",
-            type: "STRING",
-            required: true,
-            autocomplete: false,
-        }
-    ],
+    name: 'ranking',
+    description: "Display the ranking",
 
     runSlash: async (client: any, interaction: any) => {
-        const memberId = interaction.options.getString("user");
-        const user = interaction.guild.members.cache.find((user: any) => user.id == memberId).user;
-        const pseudo = user.username;
-        const discriminator = user.discriminator
-        let pos, xpUser;
-
-        // Search info in the database
         const totalRank = await User.findAll({
             order: [['experience', 'DESC']], 
-            attributes: ["id", 'pseudo', 'experience']
-        })
-        for(let i = 0; i < totalRank.length; i++) {
-            const userRank = totalRank[i].dataValues
-            if(userRank.id != user.id) continue;
+            attributes: ['pseudo']
+        });
 
-            pos = i + 1;
-            xpUser = userRank.experience;
-
-            break;
-        }
-
-        // Convert info
-        const actualLevel = getLevelFromXP(xpUser);
-        const nextStep = 10 * Math.floor(Math.pow(actualLevel + 1, 2.5))
-
-        // Create the embed
         const embed: MessageEmbed = new MessageEmbed();
-        
-        embed.setTitle(pseudo + "#" + discriminator);
+        embed.setTitle("Classement");
         embed.setColor("RED");
-        embed.setThumbnail(user.displayAvatarURL());
-        embed.addFields(
-            { name: "Actuel", value: "Niveau actuel: " + actualLevel + "\nXP actuel: " + xpUser },
-            { name: "Futur", value: "Prochain niveau: " + (actualLevel + 1) + "\nProchain XP : " + nextStep },
-            { name: 'Rang actuel : ' + pos , value: "\u200b" }
-        )
+        embed.addFields({
+            name: "\u200b",
+            value: generateValue(totalRank)
+        })
 
-        // Send the embed
-        interaction.reply({ embeds: [embed] })
+        const row: MessageActionRow = new MessageActionRow()
+		row.addComponents(
+            new MessageButton()
+	            .setCustomId('Previous')
+	            .setLabel('Précédent')
+	            .setStyle("PRIMARY"),
+              
+            new MessageButton()
+            	.setCustomId('Next')
+            	.setLabel('Suivant')
+            	.setStyle("PRIMARY"),
+			);
+
+        interaction.reply({ embeds: [embed], components: [row] });
     }
 }
