@@ -1,5 +1,6 @@
 import User from "../../Models/User"
 import { MessageEmbed } from "discord.js";
+import muteTemp from "../../utils/Moderation/MuteTemp";
 
 module.exports = {
     name: "warn", 
@@ -32,10 +33,37 @@ module.exports = {
 
         embed.setTitle('Confirmation de warn');
         embed.setColor("RED");
-        embed.addFields({ 
-            name: "Nouveau warn", 
-            value: pseudo + " a été ping ! C'est son " + warn + "e warn"
-        });
+
+        if(warn == 3) {
+            muteTemp(memberWarn, 60);
+            embed.addFields({ 
+                name: "Nouveau warn", 
+                value: pseudo + " a été ping ! C'est son 3e warn, et il est donc mute 1 h."
+            });
+        } else if(warn == 5) {
+            muteTemp(memberWarn, 1440); // 60 * 24 = 1440 minutes en 24 h
+            embed.addFields({ 
+                name: "Nouveau warn", 
+                value: pseudo + " a été ping ! C'est son 5e warn, et il est donc mute 24 h."
+            });
+        } else if(warn == 7) {
+            interaction.guild.members.cache.find((user: any) => user.id == memberWarn).user.kick();
+            embed.addFields({ 
+                name: "Nouveau warn", 
+                value: pseudo + " a été ping ! C'est son 7e warn, et il est donc kick."
+            });
+        } else if (warn == 10) {
+            interaction.guild.members.cache.find((user: any) => user.id == memberWarn).ban();
+            embed.addFields({ 
+                name: "Nouveau warn", 
+                value: pseudo + " a été ping ! C'est son 10e warn, et il est donc ban."
+            });
+        } else {
+            embed.addFields({ 
+                name: "Nouveau warn", 
+                value: pseudo + " a été ping ! C'est son " + warn + "e warn"
+            });    
+        }
 
         interaction.reply({ embeds: [embed] })
     },

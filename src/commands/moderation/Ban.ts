@@ -17,9 +17,10 @@ module.exports = {
     runSlash: async (client : any, interaction : any) => {
         const guild = interaction.guild
         const memberBan = interaction.options.getString("user");
-        const pseudo = interaction.guild.members.cache.find((user: any) => user.id == memberBan).user.username     
+        const user = guild.members.cache.find((user: any) => user.id == memberBan)
+        const pseudo = user.user.username     
 
-        guild.members.cache.find((user: any) => user.id == memberBan).ban()
+        user.ban()
 
         interaction.reply({ content: pseudo + " a bien été ban !", ephemeral: true })
     },
