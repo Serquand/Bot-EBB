@@ -12,6 +12,10 @@ client.login(process.env.TOKEN);
 
 console.clear();
 
-// setup();
-eventHandler(client);
-commandHandler(client);
+const main = async () => {
+    await eventHandler(client);
+    await commandHandler(client);
+    await setup();
+}
+
+main()
