@@ -1,4 +1,4 @@
-const muteTemp: (userId: string, time: number) => void = (userId: string, time: number) => void {
+const muteTemp : Function = () => {
 
 }
 

@@ -1,4 +1,5 @@
 import { Permissions } from "discord.js";
+import unmuteUtil from "../../utils/Moderation/Unmute";
 
 module.exports = {
     name: "unmute", 
@@ -20,18 +21,7 @@ module.exports = {
         // Récupère les channels
         const channels = guild.channels.cache.filter((channel: any) => true);
 
-        channels.forEach((channel: any) => {
-            channel.permissionOverwrites.set([
-                {
-                    id: user, 
-                    allow: [Permissions.FLAGS.SPEAK],
-                },
-                {
-                    id: user, 
-                    allow: [Permissions.FLAGS.SEND_MESSAGES],
-                },
-            ])
-        });
+       unmuteUtil(user, channels)
 
         interaction.reply("L'utilisateur <@" + userMute + "> a bien été unmute !")
     }

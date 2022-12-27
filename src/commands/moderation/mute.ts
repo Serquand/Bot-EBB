@@ -1,4 +1,5 @@
-import { Permissions } from "discord.js";
+import muteUtil from "../../utils/Moderation/Mute";
+import unmuteUtil from "../../utils/Moderation/Unmute";
 
 module.exports = {
     name: "mute", 
@@ -23,24 +24,18 @@ module.exports = {
         const userMute = interaction.options.getString("user");
         const user = guild.members.cache.find((user: any) => user.id == userMute)
         const timer = interaction.options.getString("duration");
-        if(parseInt(timer) != timer && timer) interaction.reply("Durée invalide !");
+        if(parseInt(timer) != timer && timer) return interaction.reply("Durée invalide !");
 
         // Récupère les channels
         const channels = guild.channels.cache.filter((channel: any) => true);
 
-        channels.forEach((channel: any) => {
-            channel.permissionOverwrites.set([
-                {
-                    id: user, 
-                    deny: [Permissions.FLAGS.SPEAK],
-                },
-                {
-                    id: user, 
-                    deny: [Permissions.FLAGS.SEND_MESSAGES],
-                },
-            ])
-        });
-
+        muteUtil(user, channels);
         interaction.reply("L'utilisateur <@" + userMute + "> a bien été mute !")
+
+        if(!timer) return 
+
+        setTimeout(() => {
+            unmuteUtil(user, channels);
+        }, timer * 60_000)
     }
 }
