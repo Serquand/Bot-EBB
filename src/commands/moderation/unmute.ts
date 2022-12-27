@@ -1,8 +1,8 @@
 import { Permissions } from "discord.js";
 
 module.exports = {
-    name: "mute", 
-    description: "Mute an user",
+    name: "unmute", 
+    description: "Unmute an user",
     options: [
         {
             name: "user",
@@ -10,20 +10,12 @@ module.exports = {
             type: "STRING",
             required: true,
         },
-        {
-            name: "duration",
-            description: "Taper la durée du mute (en minutes) (optionnel pour infini)",
-            type: "STRING",
-            required: false,
-        }
     ],
 
     runSlash: async (client : any, interaction : any) => {
         const guild = interaction.guild
         const userMute = interaction.options.getString("user");
         const user = guild.members.cache.find((user: any) => user.id == userMute)
-        const timer = interaction.options.getString("duration");
-        if(parseInt(timer) != timer && timer) interaction.reply("Durée invalide !");
 
         // Récupère les channels
         const channels = guild.channels.cache.filter((channel: any) => true);
@@ -32,15 +24,15 @@ module.exports = {
             channel.permissionOverwrites.set([
                 {
                     id: user, 
-                    deny: [Permissions.FLAGS.SPEAK],
+                    allow: [Permissions.FLAGS.SPEAK],
                 },
                 {
                     id: user, 
-                    deny: [Permissions.FLAGS.SEND_MESSAGES],
+                    allow: [Permissions.FLAGS.SEND_MESSAGES],
                 },
             ])
         });
 
-        interaction.reply("L'utilisateur <@" + userMute + "> a bien été mute !")
+        interaction.reply("L'utilisateur <@" + userMute + "> a bien été unmute !")
     }
 }
