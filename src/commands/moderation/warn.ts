@@ -48,7 +48,7 @@ module.exports = {
                 value: pseudo + " a été ping ! C'est son 5e warn, et il est donc mute 24 h."
             });
         } else if(warn == 7) {
-            interaction.guild.members.cache.find((user: any) => user.id == memberWarn).user.kick();
+            interaction.guild.members.cache.find((user: any) => user.id == memberWarn).kick();
             embed.addFields({ 
                 name: "Nouveau warn", 
                 value: pseudo + " a été ping ! C'est son 7e warn, et il est donc kick."
