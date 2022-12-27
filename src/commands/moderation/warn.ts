@@ -19,6 +19,7 @@ module.exports = {
         const memberWarn = interaction.options.getString("user");
         const pseudo = interaction.guild.members.cache.find((user: any) => user.id == memberWarn).user.username
         const user = await User.findOne({ where: { id: memberWarn } })
+        const channels = interaction.guild.channels.cache.filter((channel: any) => true);
         let warn;
 
         if(user === null) {
@@ -35,13 +36,13 @@ module.exports = {
         embed.setColor("RED");
 
         if(warn == 3) {
-            muteTemp(memberWarn, 60);
+            muteTemp(memberWarn, 60, channels);
             embed.addFields({ 
                 name: "Nouveau warn", 
                 value: pseudo + " a été ping ! C'est son 3e warn, et il est donc mute 1 h."
             });
         } else if(warn == 5) {
-            muteTemp(memberWarn, 1440); // 60 * 24 = 1440 minutes en 24 h
+            muteTemp(memberWarn, 1440, channels); // 60 * 24 = 1440 minutes en 24 h
             embed.addFields({ 
                 name: "Nouveau warn", 
                 value: pseudo + " a été ping ! C'est son 5e warn, et il est donc mute 24 h."
