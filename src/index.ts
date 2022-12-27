@@ -12,6 +12,6 @@ client.login(process.env.TOKEN);
 
 console.clear();
 
-setup();
+// setup();
 eventHandler(client);
 commandHandler(client);

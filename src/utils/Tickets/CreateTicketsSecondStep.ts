@@ -1,17 +1,18 @@
 import { Message, MessageActionRow, MessageCollector, MessageEmbed, ModalSubmitInteraction, TextBasedChannel } from "discord.js";
 import acceptButton from "../../utils/components/acceptButton";
 import rejectButton from "../../utils/components/rejectButton";
-import finalizeCreateEmbed from "../../utils/finalizeCreateEmbed";
+import finalizeTicket from "./FinalizeTicket";
+
 
 type Field = {
     value: string;
     name: string;
 }
 
-const createTicketsSecondStep : Function = (interaction: ModalSubmitInteraction) => {
-    const title = interaction.fields.getTextInputValue("titleCreateEmbed");
-    const footer = interaction.fields.getTextInputValue("footerCreateEmbed");
-    const description = interaction.fields.getTextInputValue("descriptionCreateEmbed");
+const createSecondStep : Function = (client: any, interaction: ModalSubmitInteraction) => {
+    const title = interaction.fields.getTextInputValue("titleCreateTicket");
+    const footer = interaction.fields.getTextInputValue("footerCreateTicket");
+    const description = interaction.fields.getTextInputValue("descriptionCreateTicket");
     const owner = interaction.user.id;
     let step = 0, fields: Field[] = [], image;
 
@@ -61,8 +62,7 @@ const createTicketsSecondStep : Function = (interaction: ModalSubmitInteraction)
                     collector.stop();
                     answerCollector.stop();
 	                if(i.customId == 'validButton') {
-                        finalizeCreateEmbed(embed, title, message);
-                        return i.reply("Nous avons bien créé l'embed ! ✅");
+                        return await finalizeTicket(client, embed, i.channel as TextBasedChannel, i);
                     } 
                     i.reply("Création supprimée avec succès ! ✅");
                 });
@@ -125,14 +125,15 @@ const createTicketsSecondStep : Function = (interaction: ModalSubmitInteraction)
                         const filter = (i:  any) =>  (i.customId === 'validButton' || i.customId === 'cancelButton') && i.user.id === owner;
                         const collector = message.channel.createMessageComponentCollector({ filter });
         
-                        collector.on('collect', async i => {
+                        collector.on('collect', async interactionValid => {
                             collector.stop();
                             answerCollector.stop();
-                            if(i.customId == 'validButton') {
-                                finalizeCreateEmbed(embed, title, message);
-                                return i.reply("Nous avons bien créé l'embed ! ✅");
+                            console.log(interactionValid);
+                            if(interactionValid.customId == 'validButton') {                               
+                                return await finalizeTicket(client, embed, interactionValid.channel as TextBasedChannel, interactionValid);
                             } 
-                            i.reply("Création supprimée avec succès ! ✅");
+                            interactionValid.reply("Création supprimée avec succès ! ✅");
+                            console.log("TEST");
                         });  
                     })
                 } else  {
@@ -168,8 +169,7 @@ const createTicketsSecondStep : Function = (interaction: ModalSubmitInteraction)
                 collector.stop();
                 answerCollector.stop();
                 if(i.customId == 'validButton') {
-                    finalizeCreateEmbed(embed, title, message);
-                    return i.reply("Nous avons bien créé l'embed ! ✅");
+                    return await finalizeTicket(client, embed, i.channel as TextBasedChannel, i);
                 } 
                 i.reply("Création supprimée avec succès ! ✅");
             });
@@ -184,4 +184,4 @@ const createTicketsSecondStep : Function = (interaction: ModalSubmitInteraction)
     )
 }
 
-export default createTicketsSecondStep;
+export default createSecondStep;

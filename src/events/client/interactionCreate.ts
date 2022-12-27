@@ -1,4 +1,5 @@
 import { Guild, Interaction } from "discord.js";
+import createTicketsSecondStep from "../../utils/Tickets/CreateTicketsSecondStep";
 import createSecondStep from "../../utils/Embeds/CreateSecondStep"
 import updateSecondStep from "../../utils/Embeds/updateSecondStep";
 
@@ -14,6 +15,7 @@ module.exports = {
 
         if(interaction.isModalSubmit()) {
             if(interaction.customId == "createEmbed") createSecondStep(interaction)
+            if(interaction.customId == "createTickets") createTicketsSecondStep(client, interaction)
             if(interaction.customId.startsWith("editEmbed-")) updateSecondStep(interaction)
         }
 

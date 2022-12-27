@@ -33,5 +33,3 @@ module.exports = {
         await interaction.showModal(modal);
     }
 }
-
-// let step = 0, title, description, image, footer, fields;
